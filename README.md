@@ -1,6 +1,11 @@
 Promises
 ========
 
+### Continuous Integration
+[![Build Status](https://travis-ci.org/shelajev/promises.png)](https://travis-ci.org/shelajev/promises)
+
+### Quick intro
+
 A small java8 implementation of Promise monad. Promise represents a result of async action.
 
 Consider an example below:
@@ -38,8 +43,8 @@ Essentially, it means that we can wrap a computation into a monad instance and p
 Let's look at those methods closer, and I definitely recommend you to check
 out [Typeclassopedia](http://www.haskell.org/haskellwiki/Typeclassopedia) for a better and more rigorous explanation.
 
-Return
-------
+### Return
+
     return :: a -> m a
 
 This is just a constructor, it takes a type *a* and returns a monad of type *m a*.
@@ -48,8 +53,8 @@ Intuitively, if we don't have it, monads are less interesting, because we cannot
 
 So the only interesting part of a monad definition is a *bind* function.
 
-Bind
-----
+### Bind
+
     (>>=)  :: m a -> (a -> m b) -> m b
 
 If you're not good at Haskell notation, here's a somewhat corresponding Java definition:
