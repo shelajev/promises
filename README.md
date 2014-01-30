@@ -89,7 +89,6 @@ There's also an alternative definition of monads that uses *fmap* and *join* fun
 which can be used to define bind. Figure out how come? It is useful.
 
 
-
 Third party code
 ================
 
