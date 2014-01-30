@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 
@@ -317,5 +318,25 @@ public class Promise<V> implements Future<V> {
       }
     });
     return result;
+  }
+
+  /**
+   * Imagine you have a function:
+   * f :: a -> b
+   *
+   * And you want to bind it into some promise, however you need a:
+   * g :: a -> m b
+   *
+   * function to bind it.
+   * lift takes a function and wraps its result into a promise
+   *
+   * lift :: (a -> b) -> (a -> m b)
+   */
+  public static <T, R> Function<T, Promise<R>> lift(Function<T, R> function) {
+    return function.andThen(r -> Promise.pure(r));
+  }
+
+  public static <T> Function<T, Promise<Void>> lift(Consumer<T> consumer) {
+    return (t -> { consumer.accept(t); return Promise.pure((Void) null); });
   }
 }
