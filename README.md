@@ -85,5 +85,8 @@ which can be used to define bind. Figure out how come? It is useful.
 
 
 
+Third party code
+================
 
+Original code for Promise implementation is taken from [Play! Framework](https://github.com/playframework/play1), which is distributed under [Apache 2 license](http://www.apache.org/licenses/LICENSE-2.0.html). 
 
