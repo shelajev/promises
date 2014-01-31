@@ -1,14 +1,19 @@
 package org.shelajev.promise;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
 
 import org.junit.Test;
 import org.shelajev.async.Async;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.shelajev.promise.Promise.lift;
 
 public class PromiseTests {
 
@@ -46,6 +51,33 @@ public class PromiseTests {
       Thread.sleep(ms);
       return "-> " + ms;
     });
+  }
+
+  @Test
+  public void bindPropagatesValues() throws ExecutionException, InterruptedException {
+    int n =  new Random().nextInt(100);
+    Promise<Integer> p = Async.submit(() -> {Thread.sleep(500); return n;});
+    p = p.bind(lift((Function<Integer,Integer>) x ->  2 * x));
+
+    int result = p.get();
+
+    assertEquals("Unexpected promise result", n * 2, result);
+  }
+
+  @Test
+  public void bindPropagatesException() throws ExecutionException, InterruptedException {
+    Promise<Integer> p = Async.submit(() -> {Thread.sleep(500); return 1;});
+    p = p.bind(x -> {
+      throw new RuntimeException("Check out how flawlessly I'm getting propagated");
+    });
+
+    try {
+      p.get();
+      fail("Expected exception");
+    }
+    catch (Exception e) {
+      assertTrue("Unexpected exception message: " + e.getMessage(), e.getMessage().contains("Check out how flawlessly I'm getting propagated"));
+    }
   }
 
 }
