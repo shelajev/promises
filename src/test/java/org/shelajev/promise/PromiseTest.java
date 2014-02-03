@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.shelajev.promise.Promise.lift;
 
-public class PromiseTests {
+public class PromiseTest {
 
   @Test
   public void waitAny() throws Exception {
